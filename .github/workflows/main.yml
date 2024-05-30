@@ -47,6 +47,9 @@ jobs:
     - name: Initialize and update submodules
       run: git submodule update --init --recursive
 
+    - name: Set non-interactive environment
+      run: export DEBIAN_FRONTEND=noninteractive
+
     - name: Build Singularity container
       run: |
         sudo singularity build matrix_mult.sif Singularity
