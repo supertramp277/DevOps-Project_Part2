@@ -19,7 +19,7 @@ From: ubuntu:20.04
     mkdir -p /opt/matrix_mult
 
     # Copy project files
-    # cp -r /${PWD}/* /opt/matrix_mult/
+    cp -r /workspace/* /opt/matrix_mult/
 
     # Build the project
     cd /opt/matrix_mult
