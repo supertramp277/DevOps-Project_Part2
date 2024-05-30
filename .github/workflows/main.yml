@@ -33,7 +33,7 @@ jobs:
     - name: Install Singularity
       run: |
         export PATH=$PATH:/usr/local/go/bin
-        export VERSION=4.1.3 # use the latest version
+        export VERSION=3.9.9 # use the latest version
         wget https://github.com/sylabs/singularity/releases/download/v$VERSION/singularity-ce-$VERSION.tar.gz
         tar -xzf singularity-$VERSION.tar.gz
         cd singularity-$VERSION
