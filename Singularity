@@ -17,7 +17,7 @@ From: ubuntu:20.04
 
     # Copy project files
     mkdir -p /opt/matrix_mult
-    cp -r ./* /opt/matrix_mult/
+    cp -r D:\Code Learning\Github\DevOps-Project_Part2/* /opt/matrix_mult/
 
     # Build the project
     cd /opt/matrix_mult
