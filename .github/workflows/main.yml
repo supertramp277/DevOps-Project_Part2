@@ -50,7 +50,3 @@ jobs:
     - name: Build And Test in Singularity container
       run: |
         sudo singularity build matrix_mult.sif Singularity
-
-    - name: Run Tests inside Singularity container
-      run: |
-        sudo singularity exec matrix_mult.sif ctest --test-dir /tmp/test_dir
