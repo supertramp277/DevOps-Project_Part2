@@ -1,18 +1,13 @@
 Bootstrap: docker
 From: ubuntu:20.04
 
-# Set timezone to Etc/UTC for tzdata.
-TZ=Etc/UTC && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    echo $TZ > /etc/timezone
-
 %labels
     yanlong wang
     Version 1.0
 
 %post
     # Install necessary dependencies
-    apt-get update && apt-get install -y \
+    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         mpich \
         libmpich-dev \
         cmake \
