@@ -31,8 +31,9 @@ From: ubuntu:20.04
     make
 
 %test
-    # Set permissions for the testing directory
-    chmod -R 777 /opt/matrix_mult/build/Testing
+    # Create the testing directory and set permissions
+    mkdir -p Testing/Temporary
+    chmod -R 777 Testing
 
     cd /opt/matrix_mult/build
     ctest
