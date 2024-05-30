@@ -31,6 +31,9 @@ From: ubuntu:20.04
     make
 
 %test
+    # Set permissions for the testing directory
+    chmod -R 777 /opt/matrix_mult/build/Testing
+
     cd /opt/matrix_mult/build
     ctest
 
