@@ -12,7 +12,6 @@ jobs:
     - name: Preconfigure tzdata
       run: |
         echo 'tzdata tzdata/Areas select Europe' | sudo debconf-set-selections
-        echo 'tzdata tzdata/Zones/Europe select London' | sudo debconf-set-selections
 
     - name: Install dependencies
       run: |
@@ -54,7 +53,7 @@ jobs:
 
     - name: Build Singularity container
       run: |
-        sudo singularity build matrix_mult.sif Singularity
+        sudo DEBIAN_FRONTEND=noninteractive singularity build matrix_mult.sif Singularity
 
     - name: Run Tests inside Singularity container
       run: |
