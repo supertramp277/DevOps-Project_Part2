@@ -9,6 +9,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Preconfigure tzdata
+      run: |
+        sudo ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime
+        echo "Etc/UTC" | sudo tee /etc/timezone
+        sudo dpkg-reconfigure --frontend noninteractive tzdata
+
     - name: Install dependencies
       run: |
         sudo apt-get update
