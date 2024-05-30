@@ -23,21 +23,16 @@ From: ubuntu:20.04
     cd /opt/matrix_mult
 
     # Build the project
-    mkdir -p build/Testing/Temporary
+    mkdir build && cd build
     cd build
     cmake ..
     make
 
-    # Set permissions for the Testing directory
-    chmod -R 777 /opt/matrix_mult/build/Testing
-
 %test
-    # Ensure the Testing directory exists and is writable
-    mkdir -p /opt/matrix_mult/build/Testing/Temporary
-    chmod -R 777 /opt/matrix_mult/build/Testing
-
+    TEMP_TEST_DIR=/tmp/test_dir
+    mkdir -p $TEMP_TEST_DIR
     cd /opt/matrix_mult/build
-    ctest
+    CTEST_OUTPUT_ON_FAILURE=1 CTEST_TEST_OUTPUT_SIZE_PASSED=1024 ctest --output-on-failure -T test --test-dir $TEMP_TEST_DIR
 
 %runscript
     exec /opt/matrix_mult/build/MatrixMultiplication
