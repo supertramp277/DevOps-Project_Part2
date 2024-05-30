@@ -49,7 +49,7 @@ jobs:
 
     - name: Build Singularity container
       run: |
-        sudo DEBIAN_FRONTEND=noninteractive singularity build matrix_mult.sif Singularity
+        sudo singularity build matrix_mult.sif Singularity
 
     - name: Run Tests inside Singularity container
       run: |

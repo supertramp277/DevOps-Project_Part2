@@ -1,6 +1,8 @@
 Bootstrap: docker
 From: ubuntu:20.04
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 %labels
     yanlong wang
     Version 1.0
