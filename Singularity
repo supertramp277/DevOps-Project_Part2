@@ -2,8 +2,8 @@ Bootstrap: docker
 From: ubuntu:20.04
 
 %labels
-    yanlong wang
-    Version 1.0
+    Author "Yanlong Wang"
+    Version "1.0"
 
 %post
     # Install necessary dependencies
@@ -15,9 +15,11 @@ From: ubuntu:20.04
         git \
         && rm -rf /var/lib/apt/lists/*
 
-    # Copy project files
+    # Create the project directory
     mkdir -p /opt/matrix_mult
-    cp -r D:\Code Learning\Github\DevOps-Project_Part2/* /opt/matrix_mult/
+
+    # Copy project files
+    cp -r /mnt/* /opt/matrix_mult/
 
     # Build the project
     cd /opt/matrix_mult
