@@ -34,7 +34,7 @@ jobs:
       run: |
         export PATH=$PATH:/usr/local/go/bin
         export VERSION=4.1.3 # use the latest version
-        wget https://github.com/sylabs/singularity/releases/download/v$VERSION/singularity-$VERSION.tar.gz
+        wget https://github.com/sylabs/singularity/releases/download/v$VERSION/singularity-ce-$VERSION.tar.gz
         tar -xzf singularity-$VERSION.tar.gz
         cd singularity-$VERSION
         ./mconfig
