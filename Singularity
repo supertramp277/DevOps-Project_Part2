@@ -23,11 +23,19 @@ From: ubuntu:20.04
     cd /opt/matrix_mult
 
     # Build the project
-    mkdir build && cd build
+    mkdir -p build/Testing/Temporary
+    cd build
     cmake ..
     make
 
+    # Set permissions for the Testing directory
+    chmod -R 777 /opt/matrix_mult/build/Testing
+
 %test
+    # Ensure the Testing directory exists and is writable
+    mkdir -p /opt/matrix_mult/build/Testing/Temporary
+    chmod -R 777 /opt/matrix_mult/build/Testing
+
     cd /opt/matrix_mult/build
     ctest
 
