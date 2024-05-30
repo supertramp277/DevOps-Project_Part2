@@ -19,6 +19,9 @@ From: ubuntu:20.04
         git \
         && rm -rf /var/lib/apt/lists/*
 
+    # Set permissions for the project directory
+    chmod -R 777 /opt/matrix_mult
+
     # Navigate to the project directory
     cd /opt/matrix_mult
 
