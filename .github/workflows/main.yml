@@ -9,10 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Preconfigure tzdata
-      run: |
-        echo 'tzdata tzdata/Areas select Europe' | sudo debconf-set-selections
-
     - name: Install dependencies
       run: |
         sudo apt-get update
