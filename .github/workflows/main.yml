@@ -33,7 +33,7 @@ jobs:
 
     - name: Install Singularity
       run: |
-        echo "PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV
+        export PATH=$PATH:/usr/local/go/bin
         export VERSION=3.9.9 # use this version
         wget https://github.com/sylabs/singularity/releases/download/v$VERSION/singularity-ce-$VERSION.tar.gz
         tar -xzf singularity-ce-$VERSION.tar.gz
@@ -50,7 +50,7 @@ jobs:
       run: |
         export SINGULARITY_CACHEDIR=$HOME/.singularity/cache
         mkdir -p $SINGULARITY_CACHEDIR
-        singularity build --fakeroot matrix_mult.sif Singularity
+        singularity build matrix_mult.sif Singularity
 
     - name: Upload Singularity image
       uses: actions/upload-artifact@v2
@@ -60,6 +60,5 @@ jobs:
 
     - name: Run tests in Singularity container
       run: |
-        source $GITHUB_ENV
-        sudo singularity exec --fakeroot matrix_mult.sif /opt/matrix_mult/build/MatrixMultiplication
-        sudo singularity exec --fakeroot matrix_mult.sif ctest --test-dir /opt/matrix_mult/build
+        singularity exec matrix_mult.sif /opt/matrix_mult/build/MatrixMultiplication
+        singularity exec matrix_mult.sif ctest --test-dir /opt/matrix_mult/build
