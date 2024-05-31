@@ -22,6 +22,12 @@ From: ubuntu:20.04
     # Navigate to the project directory
     cd /opt/matrix_mult
 
+    # Verify that CMakeLists.txt is present
+    if [ ! -f /opt/matrix_mult/CMakeLists.txt ]; then
+      echo "CMakeLists.txt not found!"
+      exit 1
+    fi
+
     # Build the project
     mkdir build && cd build
     cmake ..
