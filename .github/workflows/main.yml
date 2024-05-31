@@ -47,24 +47,26 @@ jobs:
         sudo make -C builddir install
         singularity version
         
+    - name: Check Sylabs Token
+      run: echo ${{ secrets.SYLABS_TOKEN }}
+  
     - name: Remote Build Singularity image
       run: |
         export PATH=$PATH:/usr/local/go/bin
-        singularity remote login --tokenfile ${{ secrets.SYLABS_TOKEN }}
+        echo ${{ secrets.SYLABS_TOKEN }} > ~/tokenfile
+        singularity remote login --tokenfile ~/tokenfile
         singularity build --remote matrix_mult.sif Singularity.def
 
     - name: Import PGP key
       run: |
-        echo "${{ secrets.PGP_PRIVATE_KEY }}" | singularity key import -
-      env:
-        PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-
+          echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --import -
+  
     - name: Sign Singularity image
       run: |
-        export PATH=$PATH:/usr/local/go/bin
-        echo "${{ secrets.PGP_PASSPHRASE }}" | singularity sign --keyidx 0 matrix_mult.sif
-
-    - name: Upload Singularity image to repository
+          export SINGULARITY_PASSPHRASE=${{ secrets.PGP_PASSPHRASE }}
+          echo "$SINGULARITY_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --detach-sign matrix_mult.sif
+  
+    - name: Upload Singularity image to repository (optional)
       run: |
         export PATH=$PATH:/usr/local/go/bin
         singularity push matrix_mult.sif library://yourusername/yourproject/matrix_mult:1.0
