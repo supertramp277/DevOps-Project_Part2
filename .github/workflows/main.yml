@@ -46,11 +46,10 @@ jobs:
     - name: Initialize and update submodules
       run: git submodule update --init --recursive
 
-    - name: Build Singularity image
+    - name: Build Singularity image remotely
       run: |
-        export SINGULARITY_CACHEDIR=$HOME/.singularity/cache
-        mkdir -p $SINGULARITY_CACHEDIR
-        singularity build matrix_mult.sif Singularity
+        singularity remote login
+        singularity build --remote matrix_mult.sif Singularity
 
     - name: Upload Singularity image
       uses: actions/upload-artifact@v2
