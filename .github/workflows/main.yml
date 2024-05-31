@@ -29,13 +29,11 @@ jobs:
       run: |
         wget https://golang.org/dl/go1.20.3.linux-amd64.tar.gz
         sudo tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
-        echo 'export PATH=$PATH:/usr/local/go/bin' >> $GITHUB_ENV
-        source $GITHUB_ENV
-        go version
+        echo "PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV
 
     - name: Install Singularity
       run: |
-        source $GITHUB_ENV
+        echo "PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV
         export VERSION=3.9.9 # use this version
         wget https://github.com/sylabs/singularity/releases/download/v$VERSION/singularity-ce-$VERSION.tar.gz
         tar -xzf singularity-ce-$VERSION.tar.gz
@@ -50,8 +48,9 @@ jobs:
 
     - name: Build Singularity image
       run: |
-        source $GITHUB_ENV
-        sudo singularity build --fakeroot --notest matrix_mult.sif Singularity
+        export SINGULARITY_CACHEDIR=$HOME/.singularity/cache
+        mkdir -p $SINGULARITY_CACHEDIR
+        singularity build --fakeroot matrix_mult.sif Singularity
 
     - name: Upload Singularity image
       uses: actions/upload-artifact@v2
