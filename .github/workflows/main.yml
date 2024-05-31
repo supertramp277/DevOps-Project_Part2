@@ -13,18 +13,49 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install Singularity
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y singularity-container
+        sudo apt-get install -y \
+          tzdata \
+          build-essential \
+          uuid-dev \
+          libgpgme11-dev \
+          squashfs-tools \
+          libseccomp-dev \
+          wget \
+          pkg-config \
+          git \
+          cryptsetup 
 
+    - name: Install Go
+      run: |
+        wget https://golang.org/dl/go1.20.3.linux-amd64.tar.gz
+        sudo tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
+        echo "/usr/local/go/bin" | sudo tee -a /etc/environment > /dev/null
+        echo "PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV
+        
+    - name: Install Singularity
+      run: |
+        export PATH=$PATH:/usr/local/go/bin
+        export VERSION=3.9.9 # use this version
+        wget https://github.com/sylabs/singularity/releases/download/v$VERSION/singularity-ce-$VERSION.tar.gz
+        tar -xzf singularity-ce-$VERSION.tar.gz
+        cd singularity-ce-$VERSION
+        ./mconfig
+        make -C builddir
+        sudo make -C builddir install
+        singularity version
+        
     - name: Remote Build Singularity image
       run: |
+        export PATH=$PATH:/usr/local/go/bin
         singularity remote login --tokenfile ${{ secrets.SINGULARITY_TOKEN }}
         singularity build --remote matrix_mult.sif Singularity.def
 
-    - name: Upload Singularity image to repository
+    - name: Upload Singularity image to repository (optional)
       run: |
-        singularity push matrix_mult.sif library://yanlong/REPO/matrix_mult:1.0.0
+        export PATH=$PATH:/usr/local/go/bin
+        singularity push matrix_mult.sif library://yourusername/yourproject/matrix_mult:1.0
       env:
         SYLABS_TOKEN: ${{ secrets.SINGULARITY_TOKEN }}
