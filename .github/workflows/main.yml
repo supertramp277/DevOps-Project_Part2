@@ -46,10 +46,18 @@ jobs:
     - name: Initialize and update submodules
       run: git submodule update --init --recursive
 
+    - name: Login to Singularity Remote
+      env:
+        SINGULARITY_TOKEN: ${{ secrets.SINGULARITY_TOKEN }}
+      run: |
+        echo $SINGULARITY_TOKEN | singularity remote login --tokenfile /dev/stdin
+
     - name: Build Singularity image remotely
       run: |
-        singularity remote login
         singularity build --remote matrix_mult.sif Singularity
+
+    - name: Verify file existence before upload
+      run: ls -l matrix_mult.sif
 
     - name: Upload Singularity image
       uses: actions/upload-artifact@v2
