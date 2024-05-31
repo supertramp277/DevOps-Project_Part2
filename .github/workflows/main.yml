@@ -1,71 +1,30 @@
-name: C++ CI
+name: Remote Build Singularity Container
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - feature_singularity_container
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          tzdata \
-          build-essential \
-          uuid-dev \
-          libgpgme11-dev \
-          squashfs-tools \
-          libseccomp-dev \
-          wget \
-          pkg-config \
-          git \
-          cryptsetup \
-          fakeroot
-
-    - name: Install Go
-      run: |
-        wget https://golang.org/dl/go1.20.3.linux-amd64.tar.gz
-        sudo tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
-        echo "PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Install Singularity
       run: |
-        export PATH=$PATH:/usr/local/go/bin
-        export VERSION=3.9.9 # use this version
-        wget https://github.com/sylabs/singularity/releases/download/v$VERSION/singularity-ce-$VERSION.tar.gz
-        tar -xzf singularity-ce-$VERSION.tar.gz
-        cd singularity-ce-$VERSION
-        ./mconfig
-        make -C builddir
-        sudo make -C builddir install
-        singularity version
+        sudo apt-get update
+        sudo apt-get install -y singularity-container
 
-    - name: Initialize and update submodules
-      run: git submodule update --init --recursive
+    - name: Remote Build Singularity image
+      run: |
+        singularity remote login --tokenfile ${{ secrets.SINGULARITY_TOKEN }}
+        singularity build --remote matrix_mult.sif Singularity.def
 
-    - name: Login to Singularity Remote
+    - name: Upload Singularity image to repository
+      run: |
+        singularity push matrix_mult.sif library://yanlong/REPO/matrix_mult:1.0.0
       env:
-        SINGULARITY_TOKEN: ${{ secrets.SINGULARITY_TOKEN }}
-      run: |
-        echo $SINGULARITY_TOKEN | singularity remote login --tokenfile /dev/stdin
-
-    - name: Build Singularity image remotely
-      run: |
-        singularity build --remote matrix_mult.sif Singularity
-
-    - name: Verify file existence before upload
-      run: ls -l matrix_mult.sif
-
-    - name: Upload Singularity image
-      uses: actions/upload-artifact@v2
-      with:
-        name: matrix_mult.sif
-        path: matrix_mult.sif
-
-    - name: Run tests in Singularity container
-      run: |
-        singularity exec matrix_mult.sif /opt/matrix_mult/build/MatrixMultiplication
-        singularity exec matrix_mult.sif ctest --test-dir /opt/matrix_mult/build
+        SYLABS_TOKEN: ${{ secrets.SINGULARITY_TOKEN }}
