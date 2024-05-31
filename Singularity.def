@@ -1,0 +1,45 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%labels
+    Author "Yanlong Wang"
+    Version "1.0"
+
+%post
+    # Update the package list and install dependencies
+    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        mpich \
+        libmpich-dev \
+        cmake \
+        build-essential \
+        g++ \
+        make \
+        git
+
+    # Clone the project from GitHub
+    git clone -b feature_singularity_container --single-branch https://github.com/supertramp277/DevOps-Project_Part2.git /opt/matrix_mult
+
+    # Clone googletest into the project directory
+    git clone https://github.com/google/googletest.git /opt/matrix_mult/googletest
+
+    # Clean up
+    apt-get clean
+
+%environment
+    export PATH=/usr/local/bin:$PATH
+
+%runscript
+    echo "This is a Singularity container for matrix multiplication using MPI"
+    exec "$@"
+
+%test
+    mkdir -p /tmp/matrix_mult/build
+    cp -r /opt/matrix_mult/* /tmp/matrix_mult/
+    cd /tmp/matrix_mult/build
+    if [ ! -f ../CMakeLists.txt ]; then
+        echo "CMakeLists.txt not found in /tmp/matrix_mult"
+        exit 1
+    fi
+    cmake ..
+    make
+    ctest
