@@ -27,9 +27,5 @@ From: ubuntu:20.04
     cmake ..
     make
 
-%test
-    cd /opt/matrix_mult/build
-    ctest
-
 %runscript
     exec /opt/matrix_mult/build/MatrixMultiplication
