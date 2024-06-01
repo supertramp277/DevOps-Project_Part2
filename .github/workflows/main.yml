@@ -60,6 +60,6 @@ jobs:
     - name: Upload Singularity image to repository (allow-unsigned)
       run: |
         export PATH=$PATH:/usr/local/go/bin
-        singularity push -U matrix_mult.sif library://yanlong/REPO/matrix_mult:1.0
+        singularity push -U matrix_mult.sif library://yanlong/collection/matrix_mult:1.0
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
