@@ -12,7 +12,7 @@
 #SBATCH --time=01:00:00
 
 # Run the containerized application
-singularity exec matrix_mult_1.0.sif cd build
-singularity exec cmake ..
-singularity exec make
-singularity exec ctest
+cd build
+singularity exec ../matrix_mult_1.0.sif cmake ..
+singularity exec ../matrix_mult_1.0.sif make
+singularity exec ../matrix_mult_1.0.sif ctest
