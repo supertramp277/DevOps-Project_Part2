@@ -6,6 +6,7 @@
 
 // ######################### Source code of multiplyMatrices in src/matrix_mult
 
+
 //Test Case 1: This is normal case of matrix multiplication
 TEST(MatrixMultiplicationTest, TestMultiplyMatrices) {
     std::vector<std::vector<int>> A = {
@@ -26,7 +27,7 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices) {
         {139, 154}
     };
 
-    EXPECT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    EXPECT_EQ(C, expected) << "Matrix multiplication test case1 failed! :(((()";
 }
 
 
@@ -39,7 +40,7 @@ TEST(MatrixMultiplicationTest, TestEmptyMatrices) {
     multiplyMatrices(A, B, C, 0, 0, 0);
 
     std::vector<std::vector<int>> expected;//expected.empty()?;
-    EXPECT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    EXPECT_EQ(C, expected) << "Matrix multiplication test case2 failed! :(((()";
 }
 
 //Test Case 3: Single Element Matrix
@@ -58,7 +59,7 @@ TEST(MatrixMultiplicationTest, TestSingleElementMatrix) {
         {15}
     };
 
-    EXPECT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    EXPECT_EQ(C, expected) << "Matrix multiplication test case3 failed! :(((()";
 }
 
 //Test Case 4: Matrix with negative elements
@@ -81,7 +82,7 @@ TEST(MatrixMultiplicationTest, TestMatrixWithNegativeNumbers) {
         {-11, 48}
     };
 
-    EXPECT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    EXPECT_EQ(C, expected) << "Matrix multiplication test case4 failed! :(((()";
 }
 
 //Test Case 5: Matrix with zero matrix
@@ -106,7 +107,7 @@ TEST(MatrixMultiplicationTest, TestMatrixWithZeroMatrix) {
         {0, 0, 0}
     };
 
-    EXPECT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    EXPECT_EQ(C, expected) << "Matrix multiplication test case5 failed! :(((()";
 }  
 
 // Test Case 6: Matrix with identity matrix
@@ -131,14 +132,14 @@ TEST(MatrixMultiplicationTest, TestMatrixWithIdentityMatrix) {
         {7, 8, 9}
     };
 
-    EXPECT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    EXPECT_EQ(C, expected) << "Matrix multiplication test case6 failed! :(((()";
 }
 
 //Test Case 7: Matrix with large size
 TEST(MatrixMultiplicationTest, TestMatrixWithLargeSize) {
-    std::vector<std::vector<int>> A(100, std::vector<int>(1000, 0));
-    std::vector<std::vector<int>> B(100, std::vector<int>(1000, 0));
-    std::vector<std::vector<int>> C(100, std::vector<int>(1000, 0));
+    std::vector<std::vector<int>> A(1000, std::vector<int>(1000, 0));
+    std::vector<std::vector<int>> B(1000, std::vector<int>(1000, 0));
+    std::vector<std::vector<int>> C(1000, std::vector<int>(1000, 0));
 
     multiplyMatrices(A, B, C, 1000, 1000, 1000);
 
@@ -147,7 +148,20 @@ TEST(MatrixMultiplicationTest, TestMatrixWithLargeSize) {
     EXPECT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
 }
 
+//Test Case 8: Incompatible matrix sizes (Not conforming with definition, should throw exception!) 
+/*TEST(MatrixMultiplicationTest, TestIncompatibleMatrixSizes) {
+    std::vector<std::vector<int>> A = {
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+    std::vector<std::vector<int>> B = {
+        {7, 8, 9},
+        {10, 11, 12}
+    };
+    std::vector<std::vector<int>> C(2, std::vector<int>(3, 0));
 
+    EXPECT_THROW(multiplyMatrices(A, B, C, 2, 3, 3), std::invalid_argument);
+}*/
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
