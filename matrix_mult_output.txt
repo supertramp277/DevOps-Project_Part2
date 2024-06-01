@@ -9,18 +9,20 @@
 [100%] Built target gmock_main
 Test project /g100/home/usertrain/a08trb50/seproject/build
     Start 1: MatrixMultiplicationTest.TestMultiplyMatrices
-1/6 Test #1: MatrixMultiplicationTest.TestMultiplyMatrices ............   Passed    0.00 sec
+1/7 Test #1: MatrixMultiplicationTest.TestMultiplyMatrices ............   Passed    0.00 sec
     Start 2: MatrixMultiplicationTest.TestEmptyMatrices
-2/6 Test #2: MatrixMultiplicationTest.TestEmptyMatrices ...............   Passed    0.00 sec
+2/7 Test #2: MatrixMultiplicationTest.TestEmptyMatrices ...............   Passed    0.00 sec
     Start 3: MatrixMultiplicationTest.TestSingleElementMatrix
-3/6 Test #3: MatrixMultiplicationTest.TestSingleElementMatrix .........   Passed    0.00 sec
+3/7 Test #3: MatrixMultiplicationTest.TestSingleElementMatrix .........   Passed    0.00 sec
     Start 4: MatrixMultiplicationTest.TestMatrixWithNegativeNumbers
-4/6 Test #4: MatrixMultiplicationTest.TestMatrixWithNegativeNumbers ...   Passed    0.00 sec
+4/7 Test #4: MatrixMultiplicationTest.TestMatrixWithNegativeNumbers ...   Passed    0.00 sec
     Start 5: MatrixMultiplicationTest.TestMatrixWithZeroMatrix
-5/6 Test #5: MatrixMultiplicationTest.TestMatrixWithZeroMatrix ........   Passed    0.00 sec
+5/7 Test #5: MatrixMultiplicationTest.TestMatrixWithZeroMatrix ........   Passed    0.00 sec
     Start 6: MatrixMultiplicationTest.TestMatrixWithIdentityMatrix
-6/6 Test #6: MatrixMultiplicationTest.TestMatrixWithIdentityMatrix ....   Passed    0.00 sec
+6/7 Test #6: MatrixMultiplicationTest.TestMatrixWithIdentityMatrix ....   Passed    0.00 sec
+    Start 7: MatrixMultiplicationTest.TestMatrixWithLargeSize
+7/7 Test #7: MatrixMultiplicationTest.TestMatrixWithLargeSize .........   Passed   16.71 sec
 
-100% tests passed, 0 tests failed out of 6
+100% tests passed, 0 tests failed out of 7
 
-Total Test time (real) =   0.03 sec
+Total Test time (real) =  16.74 sec
