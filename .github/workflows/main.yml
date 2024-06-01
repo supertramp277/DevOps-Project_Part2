@@ -61,14 +61,15 @@ jobs:
       run: |
           echo "${{ secrets.PGP_PRIVATE_KEY }}" | gpg --import -
   
-    - name: Sign Singularity image
+    - name: Set default key and Sign Singularity image
       run: |
           export SINGULARITY_PASSPHRASE=${{ secrets.PGP_PASSPHRASE }}
-          echo "$SINGULARITY_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --detach-sign matrix_mult.sif
-  
+          GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep -oP '(?<=sec\s+rsa\d+/\K[^ ]+)' | head -n 1)
+          gpg --batch --yes --passphrase "$SINGULARITY_PASSPHRASE" --pinentry-mode loopback --default-key $GPG_KEY_ID --detach-sign matrix_mult.sif
+      
     - name: Upload Singularity image to repository (optional)
       run: |
         export PATH=$PATH:/usr/local/go/bin
-        singularity push matrix_mult.sif library://yourusername/yourproject/matrix_mult:1.0
+        singularity push matrix_mult.sif library://yanlong/REPO/matrix_mult:1.0
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
