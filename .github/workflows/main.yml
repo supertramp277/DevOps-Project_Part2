@@ -64,7 +64,12 @@ jobs:
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
 
-    - name: Transfer Singularity image and SLURM script to SLURM cluster
+    - name: Add remote host key to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H login.g100.cineca.it >> ~/.ssh/known_hosts
+
+    - name: Transfer SLURM script to SLURM cluster
       env:
         SLURM_USER: ${{ secrets.SLURM_USER }}
         SLURM_HOST: ${{ secrets.SLURM_HOST }}
