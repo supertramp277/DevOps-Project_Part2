@@ -1,4 +1,4 @@
-name: Remote Build Singularity Container
+name: Remote Build Singularity Container and Submit to SLURM
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
           wget \
           pkg-config \
           git \
-          cryptsetup 
+          cryptsetup
 
     - name: Install Go
       run: |
@@ -38,7 +38,7 @@ jobs:
     - name: Install Singularity
       run: |
         export PATH=$PATH:/usr/local/go/bin
-        export VERSION=3.9.9 # use this version
+        export VERSION=3.9.9
         wget https://github.com/sylabs/singularity/releases/download/v$VERSION/singularity-ce-$VERSION.tar.gz
         tar -xzf singularity-ce-$VERSION.tar.gz
         cd singularity-ce-$VERSION
@@ -60,6 +60,27 @@ jobs:
     - name: Upload Singularity image to repository (allow-unsigned)
       run: |
         export PATH=$PATH:/usr/local/go/bin
-        singularity push -U matrix_mult.sif library://yanlong/collection/matrix_mult:1.0
+        singularity push -U matrix_mult.sif library://yanlong/collection/matrix_mult:latest
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
+
+    - name: Transfer Singularity image and SLURM script to SLURM cluster
+      env:
+        SLURM_USER: ${{ secrets.SLURM_USER }}
+        SLURM_HOST: ${{ secrets.SLURM_HOST }}
+        SLURM_SSH_KEY: ${{ secrets.SLURM_SSH_KEY }}
+      run: |
+        echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
+        chmod 600 ~/slurm_ssh_key
+        scp -i ~/slurm_ssh_key matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:seprpoject/
+        scp -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:seprpoject/
+
+    - name: Submit job to SLURM
+      env:
+        SLURM_USER: ${{ secrets.SLURM_USER }}
+        SLURM_HOST: ${{ secrets.SLURM_HOST }}
+        SLURM_SSH_KEY: ${{ secrets.SLURM_SSH_KEY }}
+      run: |
+        echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
+        chmod 600 ~/slurm_ssh_key
+        ssh -i ~/slurm_ssh_key ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "sbatch seproject/job_script.slurm"
