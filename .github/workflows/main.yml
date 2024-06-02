@@ -72,8 +72,8 @@ jobs:
       run: |
         echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
         chmod 600 ~/slurm_ssh_key
-        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:seprpoject/
-        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:seprpoject/
+        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject/
+        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject/
 
     - name: Submit job to SLURM
       env:
@@ -83,4 +83,4 @@ jobs:
       run: |
         echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
         chmod 600 ~/slurm_ssh_key
-        ssh -i ~/slurm_ssh_key ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "sbatch seproject/job_script.slurm"
+        ssh -i ~/slurm_ssh_key ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "sbatch ~/seproject/job_script.slurm"
