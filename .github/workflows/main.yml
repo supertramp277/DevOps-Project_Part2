@@ -88,4 +88,4 @@ jobs:
       run: |
         echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
         chmod 600 ~/slurm_ssh_key
-        ssh -o StrictHostKeyChecking=no -i ~/slurm_ssh_key ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "dos2unix ~/seproject/job_script.slurm && sbatch ~/seproject/job_script.slurm"
+        ssh -o StrictHostKeyChecking=no -i ~/slurm_ssh_key ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "cd ~/seproject && dos2unix job_script.slurm && sbatch job_script.slurm"
