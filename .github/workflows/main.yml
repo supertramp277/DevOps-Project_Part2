@@ -64,11 +64,10 @@ jobs:
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
 
-    - name: Remove old host key and update known_hosts
+    - name: Add host key to known_hosts
       run: |
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
-        ssh-keygen -R login.g100.cineca.it || true
         ssh-keyscan -H login.g100.cineca.it >> ~/.ssh/known_hosts
 
     - name: Transfer SLURM script to SLURM cluster
@@ -79,7 +78,7 @@ jobs:
       run: |
         echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
         chmod 600 ~/slurm_ssh_key
-        scp -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
+        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
 
     - name: Submit job to SLURM
       env:
@@ -89,4 +88,4 @@ jobs:
       run: |
         echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
         chmod 600 ~/slurm_ssh_key
-        ssh -i ~/slurm_ssh_key ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "sbatch ~/seproject/job_script.slurm"
+        ssh -o StrictHostKeyChecking=no -i ~/slurm_ssh_key ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "sbatch ~/seproject/job_script.slurm"

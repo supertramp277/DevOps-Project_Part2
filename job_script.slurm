@@ -8,9 +8,8 @@
 #SBATCH --error=matrix_mult_error.txt
 
 # Set Parameters
-#SBATCH --time=01:00:00              
-#SBATCH --nodes=2                    
-#SBATCH --ntasks-per-node=4                    
+#SBATCH --time=01:00:00           
+#SBATCH --ntasks=4       
 
 
 # Navigate to the build directory
