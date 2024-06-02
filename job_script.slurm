@@ -13,7 +13,7 @@
 
 
 # Navigate to the build directory
-cd ~/seproject/buildcd
+cd ~/seproject/build
 
 # Run CMake to configure the project
 singularity exec ~/seproject//matrix_mult.sif cmake .. || { echo 'CMake configuration failed' ; exit 1; }
