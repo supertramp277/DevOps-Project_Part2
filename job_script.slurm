@@ -13,13 +13,13 @@
 
 
 # Navigate to the build directory
-cd build
+cd ~/seproject/buildcd
 
 # Run CMake to configure the project
-singularity exec ../matrix_mult.sif cmake .. || { echo 'CMake configuration failed' ; exit 1; }
+singularity exec ~/seproject//matrix_mult.sif cmake .. || { echo 'CMake configuration failed' ; exit 1; }
 
 # Build the project
-singularity exec ../matrix_mult.sif make || { echo 'Build failed' ; exit 1; }
+singularity exec ~/seproject//matrix_mult.sif make || { echo 'Build failed' ; exit 1; }
 
 # Run the tests
-singularity exec ../matrix_mult.sif ctest || { echo 'Tests failed' ; exit 1; }
+singularity exec ~/seproject//matrix_mult.sif ctest || { echo 'Tests failed' ; exit 1; }
