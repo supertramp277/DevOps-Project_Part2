@@ -64,6 +64,12 @@ jobs:
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
 
+    - name: Update known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keygen -R login.g100.cineca.it || true
+        ssh-keyscan -H login.g100.cineca.it >> ~/.ssh/known_hosts
+
     - name: Transfer SLURM script to SLURM cluster
       env:
         SLURM_USER: ${{ secrets.SLURM_USER }}
@@ -72,8 +78,7 @@ jobs:
       run: |
         echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
         chmod 600 ~/slurm_ssh_key
-        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject/
-        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject/
+        scp -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
 
     - name: Submit job to SLURM
       env:
