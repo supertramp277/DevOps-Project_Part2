@@ -8,12 +8,9 @@
 #SBATCH --error=matrix_mult_error.txt
 
 # Set Parameters
-#SBATCH --time=01:00:00              # Time limit hrs:min:sec
-#SBATCH --nodes=2                    # Number of nodes
-#SBATCH --ntasks-per-node=4          # Number of MPI processes per node
-#SBATCH --cpus-per-task=1            # Number of CPU cores per MPI process
-#SBATCH --ntasks-per-socket=2        # Number of MPI processes per socket
-#SBATCH --mem-per-cpu=2000           # Memory per CPU core (MB)
+#SBATCH --time=01:00:00              
+#SBATCH --nodes=2                    
+#SBATCH --ntasks-per-node=4                    
 
 
 # Navigate to the build directory
