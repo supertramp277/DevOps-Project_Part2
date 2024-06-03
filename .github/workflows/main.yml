@@ -65,6 +65,10 @@ jobs:
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
 
+    - name: Remove old host key from known_hosts
+      run: |
+        ssh-keygen -R ${{ secrets.SLURM_HOST }}
+
     - name: Transfer job script and sif file to cluster via scp
       env:
         SLURM_USER: ${{ secrets.SLURM_USER }}
