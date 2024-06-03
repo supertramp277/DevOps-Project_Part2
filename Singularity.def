@@ -14,8 +14,7 @@ From: ubuntu:22.04
         build-essential \
         g++ \
         make \
-        git \
-        x11-apps  # Add x11-apps for basic X11 utilities
+        git 
 
     # Update the shared library cache
     ldconfig
@@ -24,8 +23,6 @@ From: ubuntu:22.04
     # Set the environment variables
     export PATH=/usr/local/bin:$PATH
     export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-    export DISPLAY=${DISPLAY}
-    export XAUTHORITY=${XAUTHORITY}
 
 %runscript
     echo "This is a Singularity container for matrix multiplication test by using MPI."

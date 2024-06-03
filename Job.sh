@@ -25,16 +25,16 @@ export OMPI_MCA_orte_tmpdir_base=$TMPDIR
 export OMPI_MCA_plm_rsh_agent="ssh :rsh"
 
 # Set MPI to use TCP as the communication protocol
-export OMPI_MCA_btl=self,tcp
+export OMPI_MCA_btl=self,tcp,vader
+export OMPI_MCA_btl_tcp_if_include=eth0
+export OMPI_MCA_btl_base_verbose=100
 
 # Ensure Singularity TMP and Cache directories are set to writable locations
 export SINGULARITY_TMPDIR=$TMPDIR/singularity_tmp
 export SINGULARITY_CACHEDIR=$TMPDIR/singularity_cache
 
-# Disable X11 forwarding to avoid "No protocol specified" warnings
-export MPIEXEC_PREFIX_DEFAULT="unset DISPLAY; unset XAUTHORITY; "
-
 # -----------------------------------------------------------------------------
 # Core Work Of This Job File: Do matrix multiplication by using MPI (2 tasks).
 # -----------------------------------------------------------------------------
-srun singularity exec ~/seproject/matrix_mult.sif mpiexec -np 2 ~/seproject/main
+singularity exec ~/seproject/matrix_mult.sif mpiexec -np 2 ~/seproject/main
+
