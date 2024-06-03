@@ -16,7 +16,12 @@
 # Module Load for Singularity
 module load singularity
 
-# Set TMPDIR to a writable directory (We have mkdir ~/tmp in advance so no need to create it) 
+# --------------------------------------------------------------------------------#
+# This line is necessary to prevent "No Protocol specified" warning from appearing.
+# --------------------------------------------------------------------------------#    
+export HWLOC_COMPONENTS=-gl
+
+# Set TMPDIR to a writable directory (have done mkdir ~/tmp in advance, no need to create) 
 export TMPDIR=~/tmp
 
 # Set Open MPI environment variables to use the TMPDIR, which is a writable directory.
@@ -25,9 +30,7 @@ export OMPI_MCA_orte_tmpdir_base=$TMPDIR
 export OMPI_MCA_plm_rsh_agent="ssh :rsh"
 
 # Set MPI to use TCP as the communication protocol
-export OMPI_MCA_btl=self,tcp,vader
-export OMPI_MCA_btl_tcp_if_include=eth0
-export OMPI_MCA_btl_base_verbose=100
+export OMPI_MCA_btl=self,tcp
 
 # Ensure Singularity TMP and Cache directories are set to writable locations
 export SINGULARITY_TMPDIR=$TMPDIR/singularity_tmp
@@ -36,5 +39,4 @@ export SINGULARITY_CACHEDIR=$TMPDIR/singularity_cache
 # -----------------------------------------------------------------------------
 # Core Work Of This Job File: Do matrix multiplication by using MPI (2 tasks).
 # -----------------------------------------------------------------------------
-singularity exec ~/seproject/matrix_mult.sif mpiexec -np 2 ~/seproject/main
-
+srun singularity exec  ~/seproject/matrix_mult.sif mpiexec -np 2 ~/seproject/main
