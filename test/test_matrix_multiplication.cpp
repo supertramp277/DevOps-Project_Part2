@@ -3,7 +3,6 @@
 #include <vector>
 #include <gtest/gtest.h>
 
-
 // ######################### Source code of multiplyMatrices in src/matrix_mult
 
 
@@ -31,7 +30,7 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices) {
 }
 
 
-//Test Case 2: Empty(Null emlement) Matrices
+//Test Case 2: Empty(Null Element) Matrices
 TEST(MatrixMultiplicationTest, TestEmptyMatrices) {
     std::vector<std::vector<int>> A;
     std::vector<std::vector<int>> B;
@@ -39,7 +38,7 @@ TEST(MatrixMultiplicationTest, TestEmptyMatrices) {
 
     multiplyMatrices(A, B, C, 0, 0, 0);
 
-    std::vector<std::vector<int>> expected;//expected.empty()?;
+    std::vector<std::vector<int>> expected;
     EXPECT_EQ(C, expected) << "Matrix multiplication test case2 failed! :(((()";
 }
 
@@ -85,7 +84,7 @@ TEST(MatrixMultiplicationTest, TestMatrixWithNegativeNumbers) {
     EXPECT_EQ(C, expected) << "Matrix multiplication test case4 failed! :(((()";
 }
 
-//Test Case 5: Matrix with zero matrix
+//Test Case 5: With Matrix which is comprised of zero-value elements.
 TEST(MatrixMultiplicationTest, TestMatrixWithZeroMatrix) {    
     std::vector<std::vector<int>> A = {
         {1, 2, 3},            
@@ -110,7 +109,7 @@ TEST(MatrixMultiplicationTest, TestMatrixWithZeroMatrix) {
     EXPECT_EQ(C, expected) << "Matrix multiplication test case5 failed! :(((()";
 }  
 
-// Test Case 6: Matrix with identity matrix
+// Test Case 6: With identity matrix.
 TEST(MatrixMultiplicationTest, TestMatrixWithIdentityMatrix) {
     std::vector<std::vector<int>> A = {
         {1, 2, 3},
@@ -145,7 +144,7 @@ TEST(MatrixMultiplicationTest, TestMatrixWithLargeSize) {
 
     std::vector<std::vector<int>> expected(1000, std::vector<int>(1000, 0));
 
-    EXPECT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    EXPECT_EQ(C, expected) << "Matrix multiplication test case7 failed! :(((()";
 }
 
 //Test Case 8: Incompatible matrix sizes (Not conforming with definition, should throw exception!) 
