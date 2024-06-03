@@ -26,7 +26,8 @@ jobs:
           wget \
           pkg-config \
           git \
-          cryptsetup
+          cryptsetup \
+          sshpass
 
     - name: Install Go
       run: |
@@ -64,29 +65,19 @@ jobs:
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
 
-    - name: Add host key to known_hosts
-      run: |
-        mkdir -p ~/.ssh
-        touch ~/.ssh/known_hosts
-        ssh-keyscan -H login.g100.cineca.it >> ~/.ssh/known_hosts
-
     - name: Transfer job script and sif file to cluster via scp
       env:
         SLURM_USER: ${{ secrets.SLURM_USER }}
         SLURM_HOST: ${{ secrets.SLURM_HOST }}
-        SLURM_SSH_KEY: ${{ secrets.SLURM_SSH_KEY }}
+        SLURM_PASSWORD: ${{ secrets.SLURM_PASSWORD }}
       run: |
-        echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
-        chmod 600 ~/slurm_ssh_key
-        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
-        scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
+        sshpass -p "${{ secrets.SLURM_PASSWORD }}" scp -o StrictHostKeyChecking=no matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
+        sshpass -p "${{ secrets.SLURM_PASSWORD }}" scp -o StrictHostKeyChecking=no job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
 
-    - name: Submit job to clsuter via ssh
+    - name: Submit job to cluster via ssh
       env:
         SLURM_USER: ${{ secrets.SLURM_USER }}
         SLURM_HOST: ${{ secrets.SLURM_HOST }}
-        SLURM_SSH_KEY: ${{ secrets.SLURM_SSH_KEY }}
+        SLURM_PASSWORD: ${{ secrets.SLURM_PASSWORD }}
       run: |
-        echo "${{ secrets.SLURM_SSH_KEY }}" > ~/slurm_ssh_key
-        chmod 600 ~/slurm_ssh_key
-        ssh -o StrictHostKeyChecking=no -i ~/slurm_ssh_key ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "cd ~/seproject && dos2unix job_script.slurm && sbatch job_script.slurm"
+        sshpass -p "${{ secrets.SLURM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "cd ~/seproject && dos2unix job_script.slurm && sbatch job_script.slurm"
