@@ -70,7 +70,7 @@ jobs:
         touch ~/.ssh/known_hosts
         ssh-keyscan -H login.g100.cineca.it >> ~/.ssh/known_hosts
 
-    - name: Transfer SLURM script and sif file to cluster
+    - name: Transfer job script and sif file to cluster
       env:
         SLURM_USER: ${{ secrets.SLURM_USER }}
         SLURM_HOST: ${{ secrets.SLURM_HOST }}
