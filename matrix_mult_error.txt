@@ -1,0 +1,3 @@
+ 
+Create tmp directory SINGULARITY_TMPDIR = /scratch_local/a08trb50/singularity_tmp
+Create cache directory SINGULARITY_CACHEDIR = /scratch_local/a08trb50/singularity_cache
