@@ -1,9 +1,6 @@
 name: Remote Build Singularity Container and Submit to SLURM
 
-on:
-  push:
-    branches:
-      - feature_singularity_container
+on: [push, pull_request]
 
 jobs:
   build:
