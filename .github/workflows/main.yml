@@ -65,6 +65,10 @@ jobs:
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
 
+    - name: Remove old host key
+      run: |
+        ssh-keygen -R login.g100.cineca.it
+
     - name: Add host key to known_hosts
       run: |
         mkdir -p ~/.ssh
