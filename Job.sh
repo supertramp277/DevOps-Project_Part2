@@ -21,6 +21,13 @@ export OMPI_MCA_tmpdir_base=$TMPDIR
 export OMPI_MCA_orte_tmpdir_base=$TMPDIR
 export OMPI_MCA_plm_rsh_agent="ssh :rsh"
 
+# Set MPI to use TCP as the communication protocol
+export OMPI_MCA_btl=self,tcp
+
+# Ensure Singularity TMP and Cache directories are set to writable locations
+export SINGULARITY_TMPDIR=$TMPDIR/singularity_tmp
+export SINGULARITY_CACHEDIR=$TMPDIR/singularity_cache
+
 # Module Load for Singularity
 module load singularity
 
