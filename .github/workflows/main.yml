@@ -72,7 +72,7 @@ jobs:
 
     - name: Remove old host key
       run: |
-        ssh-keygen -R login.g100.cineca.it
+        ssh-keygen -R login.g100.cineca.it || true
 
     - name: Add host key to known_hosts
       run: |
