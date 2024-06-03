@@ -17,10 +17,5 @@
 # Core Work Of This Job File: Do matrix multiplication by using MPI (2 tasks).
 # -------------------------------------------------------------------------------------
 
-
-# Load Singularity module
-export TMPDIR=/tmp
-module load singularity/3.8.0
-
 # Run the main program using MPI
 singularity exec ~/seproject//matrix_mult.sif mpiexec -np 2 ~/seproject//main
