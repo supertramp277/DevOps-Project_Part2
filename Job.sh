@@ -13,6 +13,9 @@
 #SBATCH --nodes=1                        # Number of nodes
 #SBATCH --partition=g100_all_serial      # Partition to submit job
 
+# Module Load for Singularity
+module load singularity
+
 # Set TMPDIR to a writable directory (We have mkdir ~/tmp in advance so no need to create it) 
 export TMPDIR=~/tmp
 
@@ -28,8 +31,8 @@ export OMPI_MCA_btl=self,tcp
 export SINGULARITY_TMPDIR=$TMPDIR/singularity_tmp
 export SINGULARITY_CACHEDIR=$TMPDIR/singularity_cache
 
-# Module Load for Singularity
-module load singularity
+# Disable X11 forwarding to avoid "No protocol specified" warnings
+export MPIEXEC_PREFIX_DEFAULT="unset DISPLAY; unset XAUTHORITY; "
 
 # -----------------------------------------------------------------------------
 # Core Work Of This Job File: Do matrix multiplication by using MPI (2 tasks).
