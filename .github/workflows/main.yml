@@ -65,9 +65,11 @@ jobs:
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
 
-    - name: Remove old host key from known_hosts
+    - name: Add host key to known_hosts
       run: |
-        ssh-keygen -R ${{ secrets.SLURM_HOST }}
+        mkdir -p ~/.ssh
+        touch ~/.ssh/known_hosts
+        ssh-keyscan -H login.g100.cineca.it >> ~/.ssh/known_hosts
 
     - name: Transfer job script and sif file to cluster via scp
       env:
