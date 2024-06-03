@@ -13,12 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install dependencies like MPI And Sshpass
+    - name: Install dependencies like MPI And sshpass
       run: |
         sudo apt-get update
         sudo apt-get install -y \
           mpich \
-          libmpich-dev \ 
+          libmpich-dev \
           tzdata \
           build-essential \
           uuid-dev \
@@ -31,7 +31,7 @@ jobs:
           cryptsetup \
           sshpass
 
-    - name: Initialize and update googel test submodules
+    - name: Initialize and update Google test submodules
       run: git submodule update --init --recursive
 
     - name: Setup CMake
@@ -43,10 +43,10 @@ jobs:
     - name: Build
       run: cmake --build build
 
-    - name: Run Tests In GithHub Runner
+    - name: Run Tests In GitHub Runner
       run: ctest --test-dir build
 
-    - name: Install Go 
+    - name: Install Go
       run: |
         wget https://golang.org/dl/go1.20.3.linux-amd64.tar.gz
         sudo tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
