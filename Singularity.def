@@ -6,7 +6,7 @@ From: ubuntu:22.04
     Version "1.0"
 
 %post
-    # Update the package list and install dependencies mianly for MPI like openmpi-bin
+    # Update the package list and install dependencies mainly for MPI like openmpi-bin
     apt-get update && apt-get install -y \
         openmpi-bin \
         libopenmpi-dev \

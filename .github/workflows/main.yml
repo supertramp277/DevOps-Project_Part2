@@ -70,7 +70,7 @@ jobs:
         touch ~/.ssh/known_hosts
         ssh-keyscan -H login.g100.cineca.it >> ~/.ssh/known_hosts
 
-    - name: Transfer job script and sif file to cluster
+    - name: Transfer job script and sif file to cluster via scp
       env:
         SLURM_USER: ${{ secrets.SLURM_USER }}
         SLURM_HOST: ${{ secrets.SLURM_HOST }}
@@ -81,7 +81,7 @@ jobs:
         scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
         scp -o StrictHostKeyChecking=no -i ~/slurm_ssh_key job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
 
-    - name: Submit job to Clsuter
+    - name: Submit job to clsuter via ssh
       env:
         SLURM_USER: ${{ secrets.SLURM_USER }}
         SLURM_HOST: ${{ secrets.SLURM_HOST }}
