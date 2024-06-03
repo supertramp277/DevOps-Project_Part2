@@ -31,10 +31,12 @@ export OMPI_MCA_btl=self,tcp
 export SINGULARITY_TMPDIR=$TMPDIR/singularity_tmp
 export SINGULARITY_CACHEDIR=$TMPDIR/singularity_cache
 
-# Disable X11 forwarding to avoid "No protocol specified" warnings
-export MPIEXEC_PREFIX_DEFAULT="unset DISPLAY; unset XAUTHORITY; "
+# X11 forwarding
+export DISPLAY=$DISPLAY
+export XAUTHORITY=$XAUTHORITY
+xhost +login.g100.cineca.it
 
 # -----------------------------------------------------------------------------
 # Core Work Of This Job File: Do matrix multiplication by using MPI (2 tasks).
 # -----------------------------------------------------------------------------
-srun singularity exec ~/seproject/matrix_mult.sif mpiexec -np 2 ~/seproject/main
+srun singularity exec --bind /tmp/.X11-unix:/tmp/.X11-unix --env DISPLAY=$DISPLAY --env XAUTHORITY=$XAUTHORITY ~/seproject/matrix_mult.sif mpiexec -np 2 ~/seproject/main
