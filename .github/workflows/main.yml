@@ -84,8 +84,8 @@ jobs:
         SLURM_HOST: ${{ secrets.SLURM_HOST }}
         SLURM_PASSWORD: ${{ secrets.SLURM_PASSWORD }}
       run: |
-        sshpass -p "${{ secrets.SLURM_PASSWORD }}" scp -o StrictHostKeyChecking=no matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
-        sshpass -p "${{ secrets.SLURM_PASSWORD }}" scp -o StrictHostKeyChecking=no job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
+        sshpass -p "${{ secrets.SLURM_PASSWORD }}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no matrix_mult.sif ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
+        sshpass -p "${{ secrets.SLURM_PASSWORD }}" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no job_script.slurm ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }}:~/seproject
 
     - name: Submit job to cluster via ssh
       env:
@@ -93,4 +93,4 @@ jobs:
         SLURM_HOST: ${{ secrets.SLURM_HOST }}
         SLURM_PASSWORD: ${{ secrets.SLURM_PASSWORD }}
       run: |
-        sshpass -p "${{ secrets.SLURM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "cd ~/seproject && dos2unix job_script.slurm && sbatch job_script.slurm"
+        sshpass -p "${{ secrets.SLURM_PASSWORD }}" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${{ secrets.SLURM_USER }}@${{ secrets.SLURM_HOST }} "cd ~/seproject && dos2unix job_script.slurm && sbatch job_script.slurm"
