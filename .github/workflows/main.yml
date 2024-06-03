@@ -65,10 +65,17 @@ jobs:
       env:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
 
-    - name: Add host key to known_hosts
+    - name: Ensure SSH known_hosts exists
       run: |
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
+
+    - name: Remove old host key
+      run: |
+        ssh-keygen -R login.g100.cineca.it
+
+    - name: Add host key to known_hosts
+      run: |
         ssh-keyscan -H login.g100.cineca.it >> ~/.ssh/known_hosts
 
     - name: Transfer job script and sif file to cluster via scp
