@@ -6,15 +6,28 @@ From: ubuntu:22.04
     Version "1.0"
 
 %post
+    # Set non-interactive mode for apt-get
+    export DEBIAN_FRONTEND=noninteractive
+
     # Update the package list and install dependencies mainly for MPI like openmpi-bin
-    apt-get update && apt-get install -y \
+    apt-get update && apt-get install -y --no-install-recommends \
         openmpi-bin \
         libopenmpi-dev \
         cmake \
         build-essential \
         g++ \
         make \
-        git 
+        git
+
+    # Clean up to reduce the image size
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+
+    # Disable SSL verification for Git
+    git config --global http.sslVerify false
+
+    # Clone the GitHub repository
+    git clone https://github.com/supertramp277/DevOps-Project_Part2 /opt/DevOps-Project_Part2
 
     # Update the shared library cache
     ldconfig

@@ -37,6 +37,14 @@ export SINGULARITY_TMPDIR=$TMPDIR/singularity_tmp
 export SINGULARITY_CACHEDIR=$TMPDIR/singularity_cache
 
 # -----------------------------------------------------------------------------
-# Core Work Of This Job File: Do matrix multiplication by using MPI (2 tasks).
+# Compare two ways to run a singularity container.
 # -----------------------------------------------------------------------------
+
+# Run application outside singularity container (Just for fun)
 srun singularity exec  ~/seproject/matrix_mult.sif mpiexec -np 2 ~/seproject/main
+
+# -----------------------------------------------------------------------------
+# Core Work Of This Job File: Do matrix multiplication by using MPI (2 tasks).
+# Run application inside singularity container (which is demaned by the project)
+# -----------------------------------------------------------------------------
+singularity exec ~/seproject/matrix_mult.sif mpirun -np 2 /opt/DevOps-Project_Part2/main
